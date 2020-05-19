@@ -66,6 +66,8 @@ library(sf)
 
 # Paquete con conjuntos de datos geoespaciales
 library(spData)
+library("graphics")
+
 ```
 
 Realice los siguientes ejercicios de graficación y manejo de datos vectoriales en R (el valor porcentual de cada uno se muestra entre paréntesis).
@@ -146,14 +148,35 @@ kable_styling()
 ### Ejercicio 6 (25%)
 Con la función ```ggplot()``` del paquete [ggplot2](https://ggplot2.tidyverse.org/), genere un gráfico de barras que muestre la esperanza de vida de los siete países de Centroamérica. El gráfico debe tener un título, los nombres (o códigos) de los países bajo cada barra, los valores sobre las barras y etiquetas para los ejes x e y.
 ```{r}
+centro_america = world[world$name_long == "Belize" |
+                       world$name_long == "Guatemala" |
+                       world$name_long == "Honduras" |
+                       world$name_long == "El Salvador" |
+                       world$name_long == "Nicaragua" |
+                       world$name_long == "Costa Rica" |
+                       world$name_long == "Panama"
+                       , ]
+lifeExp.ordenado <- order(centro_america$lifeExp, decreasing=TRUE)
+centro_america.lifeExp <- centro_america[lifeExp.ordenado,]
+
+barplot(
+  height=centro_america.lifeExp$lifeExp, 
+  names.arg=centro_america.lifeExp$iso_a2, 
+  xlab="País", 
+  ylab="Esperanza de vida", 
+  main="Esperanza de vida en Centro America"
+) 
 ```
 
 ### Ejercicio 7 (25%)
 Con la función ```plot()``` del paquete [sf](https://cran.r-project.org/web/packages/sf/index.html), genere un [mapa de coropletas](https://en.wikipedia.org/wiki/Choropleth_map) con colores que reflejen la esperanza de vida de los siete países de Centroamérica. El mapa debe llevar un título.
 ```{r}
+plot(centro_america["lifeExp"], main="Esperanza de vida en Centro America")
+
 ```
 
 ### Ejercicio 8 (25%)
 Extraiga en un nuevo data frame los países de Centroamérica con esperanza de vida mayor o igual a 74 años y genere el mapa de coropletas, con su título correspondiente.
 ```{r}
+
 ```
